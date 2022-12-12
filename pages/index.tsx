@@ -1,8 +1,9 @@
 import { InferGetStaticPropsType } from 'next';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css'
+import Card from './components/Card';
 
-interface PokeAPI {
+export interface PokeAPI {
   results: [{
     name: string,
     id: number
@@ -38,7 +39,7 @@ export default function Home({ pokemons }: InferGetStaticPropsType<typeof getSta
       <div className={styles.pokemon_container}>
         {pokemons.map((pokemon) => {
           return (
-            <p key={pokemon.id}>{pokemon.name}</p>
+            <Card key={pokemon.id} pokemon={pokemon} />
           )
         })}
       </div>
