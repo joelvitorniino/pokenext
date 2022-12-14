@@ -1,10 +1,22 @@
 import { InferGetStaticPropsType } from "next";
 import { PokeAPI } from "..";
 
+import styles from '../../styles/Pokemon.module.css';
+
+import Image from 'next/image'
+
 interface Poke {
     forms: [{
         name: string;
-    }]
+    }],
+    id: number;
+    types: [{
+        type: {
+            name: string
+        } 
+    }],
+    height: number;
+    weight: number;
 }
 
 export const getStaticPaths = async() => {
@@ -45,6 +57,38 @@ export const getStaticProps = async(context: any) => {
 
 export default function Pokemon({ pokemon }: InferGetStaticPropsType<typeof getStaticProps>) {
     return (
-        <p>{pokemon.data.forms[0].name}</p>
+        <div className={styles.pokemon_container}> 
+            <h1 className={styles.title}>{ pokemon.data.forms[0].name }</h1>
+            <Image 
+            src={`https://nexus.traction.one/images/pokemon/pokemon/${pokemon.data.id}.png`} 
+            width="250" 
+            height="250" 
+            alt='PokeNext' 
+            />
+            <div>
+                <h3>Número:</h3>
+                <p>#{pokemon.data.id}</p>
+            </div>
+            <div>
+                <h3>Tipo:</h3>
+                <div className={styles.types_container}>
+                    {pokemon.data.types.map((item, index) => {
+                        return (
+                            <span key={index} className={`${styles.type} ${styles['type_' + item.type.name]}`}>{item.type.name}</span>
+                        )
+                    })}
+                </div>
+            </div>
+            <div className={styles.data_container}>
+                <div className={styles.data_height}>
+                    <h4>Altura:</h4>
+                    <p>{pokemon.data.height * 10} cm</p>
+                </div>
+                <div className={styles.types_weight}>
+                    <h4>Peso:</h4>
+                    <p>{pokemon.data.weight / 10}kg</p>
+                </div>
+            </div>
+        </div>
     )
 }
