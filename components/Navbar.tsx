@@ -13,7 +13,7 @@ export default function Navbar() {
           height="30"
           alt="PokeNext"
         />
-        <h1>PokeNext</h1>
+        <h1><Link href="/">PokeNext</Link></h1>
       </div>
       <ul className={styles.link_items}>
         <li>
